@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import FriendList from "./FriendList";
 import SidebarHeader from "./SidebarHeader";

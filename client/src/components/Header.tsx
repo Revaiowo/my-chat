@@ -1,9 +1,14 @@
 import { useUserStore } from "@/store/userStore";
 import Image from "next/image";
 import choso from "@/assets/choso.png";
+import { useSocketStore } from "@/store/socketStore";
+import { useEffect } from "react";
 
 function Header() {
 	const selectedUser = useUserStore((state) => state.selectedUser);
+	const socketOnlineUsers = useSocketStore(
+		(state) => state.socketOnlineUsers
+	);
 
 	return (
 		<div className="h-[15%] flex justify-between border-b-2 border-[#3b3b3b]">
@@ -19,8 +24,15 @@ function Header() {
 				<div className="w-14 h-14 bg-[#a4eaa4] rounded-full self-center ml-5">
 					<Image alt="display" src={choso} objectFit="cover" />
 				</div>
-				<div className="font-bold text-4xl self-center">
-					{selectedUser ? selectedUser.fullName : "John Doe"}
+				<div className="self-center border  border-red-500 max-w-[400px]">
+					<div className="font-bold text-4xl truncate text-ellipsis overflow-hidden whitespace-nowrap ">
+						{selectedUser?.fullName}
+					</div>
+					<div>
+						{socketOnlineUsers.includes(selectedUser?._id ?? "")
+							? "Online"
+							: "Offline"}
+					</div>
 				</div>
 			</div>
 

@@ -13,10 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSocketStore } from "@/store/socketStore";
 
 function Login() {
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState("");
+
+	const connectSocket = useSocketStore((state) => state.connectSocket);
 
 	const form = useForm({
 		defaultValues: {
@@ -36,6 +39,7 @@ function Login() {
 
 			console.log("Login successful:", res.data.message);
 			setMessage(res.data.message);
+			connectSocket(res.data.data);
 		} catch (error: any) {
 			console.error("Login error:", error);
 			setMessage(error.response.data.message);

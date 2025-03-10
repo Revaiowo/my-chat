@@ -6,13 +6,12 @@ import cors from "cors";
 import authRouter from "./routes/auth.route";
 import messageRouter from "./routes/message.route";
 import connectDB from "./database/db";
+import { app, server, io } from "./lib/socket";
 
 dotenv.config();
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
-
-const app = express();
 
 app.use(
 	cors({
@@ -30,7 +29,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/message", messageRouter);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	connectDB(MONGO_URI!);
 	console.log(`App listening on port ${PORT}`);
 });

@@ -31,6 +31,7 @@ export const userRegister = async (req: Request, res: Response) => {
 		res.status(201).json({
 			status: true,
 			message: "User registered successfully.",
+			data: user._id,
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);
@@ -78,6 +79,7 @@ export const userLogin = async (req: Request, res: Response) => {
 		res.status(200).json({
 			success: true,
 			message: "Logged you in!",
+			data: user._id,
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);

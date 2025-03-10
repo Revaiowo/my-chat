@@ -65,11 +65,11 @@ function FriendList() {
 									{friend.participants[0].fullName}
 								</div>
 								<div className="text-sm  font-light">
-									{friend.lastMessage.text}
+									{friend.lastMessage?.text}
 								</div>
 							</div>
 						</div>
-						<div>{formatTime(friend.updatedAt)}</div>
+						<div>{formatTime(friend?.updatedAt)}</div>
 					</div>
 				))}
 		</>

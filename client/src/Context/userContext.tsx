@@ -1,5 +1,6 @@
 "use client";
 
+import { useSocketStore } from "@/store/socketStore";
 import axios from "axios";
 import {
 	createContext,
@@ -29,6 +30,12 @@ export const UserContext = createContext<IUserContext | null>(null);
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<IUser | null>(null);
 
+	const connectSocket = useSocketStore((state) => state.connectSocket);
+	const disconnectSocket = useSocketStore((state) => state.disconnectSocket);
+	const socketOnlineUsers = useSocketStore(
+		(state) => state.socketOnlineUsers
+	);
+
 	useEffect(() => {
 		const getUser = async () => {
 			try {
@@ -44,6 +51,14 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 		};
 		getUser();
 	}, []);
+
+	useEffect(() => {
+		if (user) connectSocket(user?._id as string);
+
+		return () => {
+			disconnectSocket();
+		};
+	}, [user]);
 
 	return (
 		<UserContext.Provider value={{ user, setUser }}>

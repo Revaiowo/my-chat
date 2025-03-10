@@ -20,7 +20,6 @@ function Input() {
 			);
 
 			setMessages(res.data.data);
-
 			setInputMessage("");
 		} catch (error: any) {
 			console.log("Error sending message:", error.response?.data);

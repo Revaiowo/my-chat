@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Message, IMessage } from "../models/message.model";
 import { Chat, IChat } from "../models/chat.model";
 import { Types } from "mongoose";
+import { getSocketId, io } from "../lib/socket";
 
 export const sendMessage = async (req: Request, res: Response) => {
 	try {
@@ -36,6 +37,12 @@ export const sendMessage = async (req: Request, res: Response) => {
 		chat.lastMessage = message._id as Types.ObjectId;
 		chat.save();
 		message.save();
+
+		// Making a socket connection to send message
+		const recieverSocketId = getSocketId(recieverId);
+		if (recieverSocketId)
+			io.to(recieverSocketId).emit("newMessage", message);
+		console.log(recieverSocketId);
 
 		res.status(200).json({
 			success: true,

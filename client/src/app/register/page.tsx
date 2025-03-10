@@ -14,10 +14,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSocketStore } from "@/store/socketStore";
 
 function Register() {
 	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false);
+
+	const connectSocket = useSocketStore((state) => state.connectSocket);
 
 	const form = useForm({
 		defaultValues: {
@@ -44,7 +47,7 @@ function Register() {
 
 			console.log("Registration successful:", res.data.message);
 			setMessage(res.data.message);
-			// Handle successful login (e.g., save token, redirect)
+			connectSocket(res.data.data);
 		} catch (error: any) {
 			console.error("Registaration error:", error.response.data);
 			setMessage(error.response.data.message);
