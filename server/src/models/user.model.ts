@@ -7,6 +7,8 @@ export interface IUser extends Document {
 	displayName: string;
 	password: string;
 	profilePicture?: string;
+	friends?: Types.ObjectId[];
+	friendRequests?: Types.ObjectId[];
 	createdAt?: Date;
 	updatedAt?: Date;
 }
@@ -38,6 +40,20 @@ const userSchema = new mongoose.Schema<IUser>(
 			type: String,
 			default: "",
 		},
+
+		friends: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
+
+		friendRequests: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
 	},
 	{ timestamps: true }
 );

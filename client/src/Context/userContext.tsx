@@ -32,9 +32,6 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const connectSocket = useSocketStore((state) => state.connectSocket);
 	const disconnectSocket = useSocketStore((state) => state.disconnectSocket);
-	const socketOnlineUsers = useSocketStore(
-		(state) => state.socketOnlineUsers
-	);
 
 	useEffect(() => {
 		const getUser = async () => {

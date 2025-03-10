@@ -5,6 +5,7 @@ import cors from "cors";
 
 import authRouter from "./routes/auth.route";
 import messageRouter from "./routes/message.route";
+import friendRouter from "./routes/friend.route";
 import connectDB from "./database/db";
 import { app, server, io } from "./lib/socket";
 
@@ -17,7 +18,7 @@ app.use(
 	cors({
 		origin: ["http://localhost:3000"],
 		credentials: true,
-		// exposedHeaders: ["clientURL"],
+		exposedHeaders: ["clientURL"],
 	})
 );
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/message", messageRouter);
+app.use("/api/friend", friendRouter);
 
 server.listen(PORT, () => {
 	connectDB(MONGO_URI!);

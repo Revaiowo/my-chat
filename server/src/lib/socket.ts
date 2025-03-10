@@ -29,7 +29,6 @@ io.on("connection", (socket) => {
 	io.emit("getOnlineUsers", {
 		userIds: Object.keys(connectedSocketUsers),
 	});
-	console.log("online user list: ", connectedSocketUsers);
 
 	socket.on("disconnect", () => {
 		delete connectedSocketUsers[userId];

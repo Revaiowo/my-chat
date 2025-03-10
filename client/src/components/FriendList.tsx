@@ -3,9 +3,10 @@
 import choso from "@/assets/choso.png";
 import axios from "axios";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IChat } from "@/lib/types";
 import { useMessageStore, useUserStore } from "@/store/userStore";
+import { UserContext } from "@/Context/userContext";
 
 const formatTime = (timestamp: Date): string => {
 	const date = new Date(timestamp);
@@ -18,6 +19,9 @@ const formatTime = (timestamp: Date): string => {
 
 function FriendList() {
 	const [friendList, setFriendList] = useState<IChat[]>([]);
+
+	const userContext = useContext(UserContext);
+	const user = userContext?.user;
 
 	const selectedUser = useUserStore((state) => state.selectedUser);
 	const setSelectedUser = useUserStore((state) => state.setSelectedUser);
@@ -41,7 +45,7 @@ function FriendList() {
 
 	return (
 		<>
-			{typeof window !== "undefined" &&
+			{user &&
 				friendList.map((friend) => (
 					<div
 						key={friend._id}

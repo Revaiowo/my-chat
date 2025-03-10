@@ -5,6 +5,7 @@ import { useContext } from "react";
 import Header from "./Header";
 import Input from "./Input";
 import { UserContext } from "@/Context/userContext";
+import MainNoLogin from "./MainNoLogin";
 
 function Main() {
 	const userContext = useContext(UserContext);
@@ -19,7 +20,9 @@ function Main() {
 					<Input />
 				</div>
 			) : (
-				<div>Hello</div>
+				<div className="w-[70%] bg-[#131313] flex justify-center items-center">
+					<MainNoLogin />
+				</div>
 			)}
 		</>
 	);

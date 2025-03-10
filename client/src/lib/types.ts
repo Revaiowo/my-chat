@@ -3,8 +3,9 @@ export interface IUser {
 	email: string;
 	fullName: string;
 	displayName: string;
-	password: string;
 	profilePicture: string;
+	friends: string[];
+	friendRequest: string[];
 	createdAt: Date;
 	updatedAt: Date;
 }

@@ -11,13 +11,19 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSocketStore } from "@/store/socketStore";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { UserContext } from "@/Context/userContext";
 
 function Login() {
 	const [loading, setLoading] = useState(false);
-	const [message, setMessage] = useState("");
+	const router = useRouter();
+
+	const userContext = useContext(UserContext);
+	const setUser = userContext?.setUser!;
 
 	const connectSocket = useSocketStore((state) => state.connectSocket);
 
@@ -37,12 +43,14 @@ function Login() {
 				{ withCredentials: true }
 			);
 
-			console.log("Login successful:", res.data.message);
-			setMessage(res.data.message);
-			connectSocket(res.data.data);
+			setUser(res.data.data);
+			connectSocket(res.data.data._id);
+			toast.success(res.data.message);
+
+			router.push("/");
 		} catch (error: any) {
+			toast.error(error.response.data.message);
 			console.error("Login error:", error);
-			setMessage(error.response.data.message);
 		} finally {
 			setLoading(false);
 		}
@@ -91,10 +99,7 @@ function Login() {
 							</FormItem>
 						)}
 					/>
-					{message && (
-						<div className="col-span-2 text-red-500">{message}</div>
-					)}
-					<Button className="" type="submit">
+					<Button type="submit">
 						{loading ? "Logging in..." : "Submit"}
 					</Button>
 				</form>

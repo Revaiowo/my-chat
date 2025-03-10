@@ -28,10 +28,12 @@ export const userRegister = async (req: Request, res: Response) => {
 
 		generateToken(user._id.toString(), res);
 
+		const { password: _, ...userWithoutPassword } = user.toObject();
+
 		res.status(201).json({
 			status: true,
 			message: "User registered successfully.",
-			data: user._id,
+			data: userWithoutPassword,
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);
@@ -55,7 +57,7 @@ export const userLogin = async (req: Request, res: Response) => {
 		if (!user)
 			return res.status(401).json({
 				success: false,
-				messaage: "Incorrect email or password.",
+				message: "Incorrect email or password.",
 			});
 
 		const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -76,10 +78,12 @@ export const userLogin = async (req: Request, res: Response) => {
 
 		generateToken(user._id.toString(), res);
 
+		const { password: _, ...userWithoutPassword } = user.toObject();
+
 		res.status(200).json({
 			success: true,
 			message: "Logged you in!",
-			data: user._id,
+			data: userWithoutPassword,
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);

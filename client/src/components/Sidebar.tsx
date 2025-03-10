@@ -1,6 +1,16 @@
 import Image from "next/image";
 import FriendList from "./FriendList";
 import SidebarHeader from "./SidebarHeader";
+import { CirclePlus } from "lucide-react";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import AddFriendsDialog from "./AddFriendsDialog";
 
 function Sidebar() {
 	return (
@@ -21,13 +31,9 @@ function Sidebar() {
 						placeholder="Search"
 					/>
 				</div>
-				<Image
-					className="bg-[#d13cd4] rounded-full hover:cursor-pointer"
-					alt="add"
-					src="/add.svg"
-					width={30}
-					height={30}
-				/>
+				<AddFriendsDialog>
+					<CirclePlus size={25} className="hover:cursor-pointer" />
+				</AddFriendsDialog>
 			</div>
 
 			{/* Third Part */}

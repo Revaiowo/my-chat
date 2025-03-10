@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
-import { useUserStore, useMessageStore } from "./userStore";
 
 interface ISocketStore {
 	socket: Socket | null;

@@ -35,8 +35,8 @@ export const sendMessage = async (req: Request, res: Response) => {
 
 		message.chatId = chat._id as Types.ObjectId;
 		chat.lastMessage = message._id as Types.ObjectId;
-		chat.save();
-		message.save();
+		await chat.save();
+		await message.save();
 
 		// Making a socket connection to send message
 		const recieverSocketId = getSocketId(recieverId);
@@ -121,7 +121,6 @@ export const getUsers = async (req: Request, res: Response) => {
 			data: chatsWithoutAuthor,
 		});
 	} catch (error) {
-		console.log(1);
 		console.log("Something went wrong", error);
 		let errorMessage = "Something went wrong.";
 

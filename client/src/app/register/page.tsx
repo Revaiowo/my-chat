@@ -12,13 +12,19 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSocketStore } from "@/store/socketStore";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { UserContext } from "@/Context/userContext";
 
 function Register() {
-	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false);
+	const router = useRouter();
+
+	const userContext = useContext(UserContext);
+	const setUser = userContext?.setUser!;
 
 	const connectSocket = useSocketStore((state) => state.connectSocket);
 
@@ -45,12 +51,14 @@ function Register() {
 				{ withCredentials: true }
 			);
 
-			console.log("Registration successful:", res.data.message);
-			setMessage(res.data.message);
-			connectSocket(res.data.data);
+			setUser(res.data.data);
+			connectSocket(res.data.data._id);
+			toast.success(res.data.message);
+
+			router.push("/");
 		} catch (error: any) {
-			console.error("Registaration error:", error.response.data);
-			setMessage(error.response.data.message);
+			toast.error(error.response.data.message);
+			console.error("Registaration error:", error);
 		} finally {
 			setLoading(false);
 		}
@@ -134,9 +142,7 @@ function Register() {
 							</FormItem>
 						)}
 					/>
-					{message && (
-						<div className="col-span-2 text-red-500">{message}</div>
-					)}
+
 					<Button
 						className="col-span-2 justify-self-center min-w-52"
 						type="submit"
