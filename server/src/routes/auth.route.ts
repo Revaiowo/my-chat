@@ -4,6 +4,7 @@ import {
 	userLogin,
 	userLogout,
 	userCheckIn,
+	updateProfile,
 } from "../controllers/auth.controller";
 import authenticateUser from "../middleware/auth.middleware";
 
@@ -16,5 +17,7 @@ router.post("/login", userLogin);
 router.post("/logout", authenticateUser, userLogout);
 
 router.get("/checkIn", authenticateUser, userCheckIn);
+
+router.put("/profile", authenticateUser, updateProfile);
 
 export default router;

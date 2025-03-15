@@ -20,7 +20,6 @@ const chatSchema = new mongoose.Schema<IChat>(
 		lastMessage: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Message",
-			required: true,
 		},
 	},
 	{ timestamps: true }

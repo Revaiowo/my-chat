@@ -21,6 +21,7 @@ function Chat() {
 	const user = userContext?.user;
 
 	const selectedUser = useUserStore((state) => state.selectedUser);
+
 	const {
 		messages,
 		setMessages,
@@ -75,11 +76,15 @@ function Chat() {
 							}`}
 						>
 							{message.senderId !== user?._id && (
-								<div className="w-10 h-10 rounded-full bg-[#ee8686] self-end">
+								<div className="relative w-10 h-10 rounded-full self-end overflow-hidden">
 									<Image
 										alt="display"
-										src={choso}
-										objectFit="fill"
+										src={
+											selectedUser?.profilePicture ||
+											"/avatar.png"
+										}
+										fill={true}
+										objectFit="cover"
 									/>
 								</div>
 							)}
@@ -90,24 +95,26 @@ function Chat() {
 										: "rounded-r-xl"
 								} `}
 							>
-								<div className="flex justify-between text-xs">
-									{/* {message.senderId === user?._id ? (
+								<div className="flex justify-between text-xs gap-5">
+									{message.senderId === user?._id ? (
 										<div>{user?.fullName}</div>
 									) : (
-										<div>John Cena</div>
-									)} */}
-									{user?.fullName}
+										<div>{selectedUser?.fullName}</div>
+									)}
 									<div>{formatTime(message.createdAt)}</div>
 								</div>
 								<div className="">{message.text}</div>
 							</div>
 
 							{message.senderId === user?._id && (
-								<div className="w-10 h-10 rounded-full bg-[#ee8686] self-end">
+								<div className="relative w-10 h-10 rounded-full bg-[#474747] self-end overflow-hidden">
 									<Image
 										alt="display"
-										src={choso}
-										objectFit="fill"
+										src={
+											user.profilePicture || "/avatar.png"
+										}
+										fill={true}
+										objectFit="cover"
 									/>
 								</div>
 							)}

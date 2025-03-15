@@ -30,7 +30,7 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased `}
 			>
 				<div
-					className="h-screen relative p-[50px] overflow-hidden
+					className="h-screen relative p-[40px] overflow-hidden
           bgx-[linear-gradient(170deg,_#663399_50%,_#171717_50%);]
         "
 				>

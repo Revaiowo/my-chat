@@ -21,10 +21,15 @@ function Header() {
 						height={30}
 					/>
 				</div>
-				<div className="w-14 h-14 bg-[#a4eaa4] rounded-full self-center ml-5">
-					<Image alt="display" src={choso} objectFit="cover" />
+				<div className="relative w-14 h-14 b-[#a4eaa4] rounded-full self-center ml-5 overflow-hidden">
+					<Image
+						alt="display"
+						src={selectedUser?.profilePicture || "/avatar.png"}
+						fill={true}
+						objectFit="cover"
+					/>
 				</div>
-				<div className="self-center border  border-red-500 max-w-[400px]">
+				<div className="self-center max-w-[400px]">
 					<div className="font-bold text-4xl truncate text-ellipsis overflow-hidden whitespace-nowrap ">
 						{selectedUser?.fullName}
 					</div>

@@ -1,20 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import FriendList from "./FriendList";
 import SidebarHeader from "./SidebarHeader";
 import { CirclePlus } from "lucide-react";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
 import AddFriendsDialog from "./AddFriendsDialog";
 
 function Sidebar() {
 	return (
-		<div className="w-[30%] h-full bg-[#1a1a1a] flex flex-col">
+		<div className="w-[500px] h-full bg-[#1a1a1a] flex flex-col">
 			<SidebarHeader />
 
 			<div className="p-4 flex justify-between">

@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model";
 import { IUser } from "../models/user.model";
 import generateToken from "../lib/jwt";
+import cloudinary from "../database/cloudinary";
 
 export const userRegister = async (req: Request, res: Response) => {
 	try {
@@ -125,6 +126,41 @@ export const userCheckIn = async (req: Request, res: Response) => {
 		res.status(200).json({
 			success: true,
 			data: user,
+		});
+	} catch (error) {
+		console.log("Something went wrong", error);
+		let errorMessage = "Something went wrong.";
+
+		if (error instanceof Error) errorMessage = error.message;
+
+		res.status(500).json({
+			success: false,
+			message: errorMessage,
+		});
+	}
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+	try {
+		const { profilePicture } = req.body;
+		const { user } = req;
+
+		console.log(profilePicture);
+
+		if (!profilePicture)
+			return res.status(400).json({
+				success: false,
+				message: "You need to provide a profile picture.",
+			});
+
+		const uploadResponse = await cloudinary.uploader.upload(profilePicture);
+		user.profilePicture = uploadResponse.secure_url;
+		await user.save();
+
+		res.status(200).json({
+			success: true,
+			message: "Updated your profile picture.",
+			data: user.profilePicture,
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);

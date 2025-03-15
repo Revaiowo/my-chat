@@ -23,12 +23,15 @@ interface IUser {
 interface IUserContext {
 	user: IUser | null;
 	setUser: Dispatch<SetStateAction<IUser | null>> | null;
+	isLoading: true | false;
+	setIsLoading: Dispatch<SetStateAction<true | false>>;
 }
 
 export const UserContext = createContext<IUserContext | null>(null);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<IUser | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const connectSocket = useSocketStore((state) => state.connectSocket);
 	const disconnectSocket = useSocketStore((state) => state.disconnectSocket);
@@ -44,6 +47,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 			} catch (error: any) {
 				setUser(null);
 				console.log("my user error - ", error.response.data);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 		getUser();
@@ -58,7 +63,9 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	}, [user]);
 
 	return (
-		<UserContext.Provider value={{ user, setUser }}>
+		<UserContext.Provider
+			value={{ user, setUser, isLoading, setIsLoading }}
+		>
 			{children}
 		</UserContext.Provider>
 	);

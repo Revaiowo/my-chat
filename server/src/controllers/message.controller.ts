@@ -72,9 +72,10 @@ export const getMessages = async (req: Request, res: Response) => {
 		});
 
 		if (!chat)
-			return res.status(404).json({
-				success: false,
+			return res.status(200).json({
+				success: true,
 				message: "No chat found between the users.",
+				data: [],
 			});
 
 		const messages = await Message.find({ chatId: chat._id }).sort({
@@ -85,40 +86,6 @@ export const getMessages = async (req: Request, res: Response) => {
 			success: true,
 			message: "All chat messages recovered",
 			data: messages,
-		});
-	} catch (error) {
-		console.log("Something went wrong", error);
-		let errorMessage = "Something went wrong.";
-
-		if (error instanceof Error) errorMessage = error.message;
-
-		res.status(500).json({
-			success: false,
-			message: errorMessage,
-		});
-	}
-};
-
-export const getUsers = async (req: Request, res: Response) => {
-	try {
-		const user = req.user;
-
-		const chats = await Chat.find({
-			participants: { $all: [user._id] },
-		})
-			.populate("participants")
-			.populate("lastMessage");
-
-		const chatsWithoutAuthor = chats.map((chat) => {
-			chat.participants = chat.participants.filter(
-				(participant) => !participant._id.equals(user._id)
-			);
-			return chat;
-		});
-
-		res.status(200).json({
-			success: true,
-			data: chatsWithoutAuthor,
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);

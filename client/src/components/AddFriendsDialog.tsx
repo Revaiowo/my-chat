@@ -40,7 +40,7 @@ function AddFriendsDialog({ children }: { children: React.ReactNode }) {
 	};
 	return (
 		<Dialog>
-			<DialogTrigger>{children}</DialogTrigger>
+			<DialogTrigger asChild>{children}</DialogTrigger>
 			<DialogContent className="flex flex-col">
 				<form onSubmit={handleSubmit}>
 					<DialogHeader>

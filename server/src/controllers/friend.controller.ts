@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/user.model";
+import { Chat, IChat } from "../models/chat.model";
 
 export const sendFriendRequest = async (req: Request, res: Response) => {
 	try {
@@ -17,8 +18,6 @@ export const sendFriendRequest = async (req: Request, res: Response) => {
 		const requestAlreadyExists = requestedUser.friendRequests?.some(
 			(id) => id.toString() === user._id.toString()
 		);
-
-		console.log(requestedUser.friends![0], user._id);
 
 		if (requestAlreadyExists)
 			return res.status(400).json({
@@ -61,7 +60,7 @@ export const sendFriendRequest = async (req: Request, res: Response) => {
 export const acceptFriendRequest = async (req: Request, res: Response) => {
 	try {
 		const { user } = req;
-		const { id: requestSenderId } = req.body;
+		const { userId: requestSenderId } = req.body;
 
 		const requestSender = await User.findOne({ _id: requestSenderId });
 
@@ -81,9 +80,21 @@ export const acceptFriendRequest = async (req: Request, res: Response) => {
 				message: "Friend request not found",
 			});
 
+		let chat: IChat | null = await Chat.findOne({
+			participants: {
+				$all: [user._id, requestSenderId],
+			},
+		}).populate("lastMessage");
+
+		if (!chat)
+			chat = await Chat.create({
+				participants: [user._id, requestSenderId],
+			});
+
 		user.friendRequests?.splice(index, 1);
 		user.friends?.push(requestSenderId);
 		requestSender.friends?.push(user._id);
+
 		await user.save();
 		await requestSender.save();
 
@@ -91,8 +102,11 @@ export const acceptFriendRequest = async (req: Request, res: Response) => {
 
 		res.status(200).json({
 			success: true,
-			messaage: "Friend request accepted.",
-			data: userWithoutPassword,
+			message: "Friend request accepted.",
+			data: {
+				friend: userWithoutPassword,
+				chat,
+			},
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);
@@ -110,7 +124,7 @@ export const acceptFriendRequest = async (req: Request, res: Response) => {
 export const rejectFriendRequest = async (req: Request, res: Response) => {
 	try {
 		const { user } = req;
-		const { id: requestSenderId } = req.body;
+		const { userId: requestSenderId } = req.body;
 
 		const index = user.friendRequests?.findIndex(
 			(id) => id.toString() === requestSenderId.toString()
@@ -127,7 +141,90 @@ export const rejectFriendRequest = async (req: Request, res: Response) => {
 
 		res.status(200).json({
 			success: true,
-			messaage: "Friend request rejected.",
+			message: "Friend request rejected.",
+			data: requestSenderId,
+		});
+	} catch (error) {
+		console.log("Something went wrong", error);
+		let errorMessage = "Something went wrong.";
+
+		if (error instanceof Error) errorMessage = error.message;
+
+		res.status(500).json({
+			success: false,
+			message: errorMessage,
+		});
+	}
+};
+
+export const getFriendRequests = async (req: Request, res: Response) => {
+	try {
+		const populatedUser = await req.user.populate("friendRequests");
+
+		if (populatedUser.friendRequests?.length === 0)
+			return res.status(200).json({
+				success: true,
+				message: "You don't have any pending friend requests.",
+				data: [],
+			});
+
+		return res.status(200).json({
+			success: true,
+			message: "Successfully retrieved your friend requests.",
+			data: populatedUser.friendRequests,
+		});
+	} catch (error) {
+		console.log("Something went wrong", error);
+		let errorMessage = "Something went wrong.";
+
+		if (error instanceof Error) errorMessage = error.message;
+
+		res.status(500).json({
+			success: false,
+			message: errorMessage,
+		});
+	}
+};
+
+export const getFriends = async (req: Request, res: Response) => {
+	try {
+		const populatedUser = await req.user.populate({
+			path: "friends",
+			select: "-password",
+		});
+
+		if (!populatedUser.friends?.length)
+			return res.status(200).json({
+				success: true,
+				message: "You don't have any friends.",
+				data: [],
+			});
+
+		const friendIds = populatedUser.friends.map((friend) => friend._id);
+
+		const chats: IChat[] | null = await Chat.find({
+			participants: {
+				$all: [req.user._id],
+				$in: friendIds,
+			},
+		}).populate("lastMessage");
+
+		const friendsWithChats = populatedUser.friends.map((friend) => {
+			const chat = chats.find((c) =>
+				c.participants.some(
+					(p) => p._id.toString() === friend._id.toString()
+				)
+			);
+			return {
+				friend: friend,
+				chat: chat,
+			};
+		});
+
+		return res.status(200).json({
+			success: true,
+			message: "Successfully retrieved your friends.",
+			data: friendsWithChats,
 		});
 	} catch (error) {
 		console.log("Something went wrong", error);
