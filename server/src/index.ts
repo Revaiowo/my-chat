@@ -13,10 +13,11 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 app.use(
 	cors({
-		origin: ["http://localhost:3000"],
+		origin: [FRONTEND_URL!],
 		credentials: true,
 		exposedHeaders: ["clientURL"],
 	})

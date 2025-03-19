@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import choso from "@/assets/choso.png";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "@/Context/userContext";
 import { Settings } from "lucide-react";

@@ -13,8 +13,8 @@ import {
 import Image from "next/image";
 import { UserContext } from "@/Context/userContext";
 import { Camera, Loader, Mail, User } from "lucide-react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 function ProfilePictureDialog({ children }: { children: React.ReactNode }) {
 	const userContext = useContext(UserContext);
@@ -39,7 +39,7 @@ function ProfilePictureDialog({ children }: { children: React.ReactNode }) {
 				setProfilePicture(base64Image);
 
 				const res = await axios.put(
-					"http://localhost:5000/api/auth/profile",
+					"/api/auth/profile",
 					{ profilePicture: base64Image },
 					{ withCredentials: true }
 				);

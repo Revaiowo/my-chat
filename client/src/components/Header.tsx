@@ -1,8 +1,6 @@
 import { useUserStore } from "@/store/userStore";
 import Image from "next/image";
-import choso from "@/assets/choso.png";
 import { useSocketStore } from "@/store/socketStore";
-import { useEffect } from "react";
 
 function Header() {
 	const selectedUser = useUserStore((state) => state.selectedUser);

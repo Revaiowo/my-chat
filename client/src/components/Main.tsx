@@ -6,7 +6,6 @@ import Header from "./Header";
 import Input from "./Input";
 import { UserContext } from "@/Context/userContext";
 import MainNoLogin from "./MainNoLogin";
-import { Loader } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
 import { useUserStore } from "@/store/userStore";
 import { Button } from "./ui/button";
@@ -25,7 +24,6 @@ function Main() {
 	if (isLoading) {
 		return (
 			<div className="w-full h-full bg-[#131313] flex flex-col gap-10 p-10">
-				{/* <Loader className="loader" /> */}
 				<Skeleton className="w-full h-[15%] rounded-xl" />
 				<Skeleton className="w-full h-[70%] rounded-xl" />
 				<Skeleton className="w-full h-[15%] rounded-xl" />

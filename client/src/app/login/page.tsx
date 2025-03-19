@@ -1,5 +1,6 @@
 "use client";
 
+// import axios from "../../lib/api";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,11 +41,9 @@ function Login() {
 			if (!data.email || !data.password)
 				return toast.error("You need to fill all the fields");
 
-			const res = await axios.post(
-				"http://localhost:5000/api/auth/login",
-				data,
-				{ withCredentials: true }
-			);
+			const res = await axios.post("/api/auth/login", data, {
+				withCredentials: true,
+			});
 
 			setUser(res.data.data);
 			connectSocket(res.data.data._id);

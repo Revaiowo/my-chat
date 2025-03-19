@@ -17,6 +17,7 @@ export const useSocketStore = create<ISocketStore>((set, get) => ({
 		if (get().socket?.connected) return;
 
 		const socket = io("http://localhost:5000", {
+			transports: ["websocket", "polling"],
 			query: {
 				userId,
 			},

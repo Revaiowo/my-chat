@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import Image from "next/image";
-import choso from "@/assets/choso.png";
 import React, { useContext, useEffect, useRef } from "react";
 import { UserContext } from "@/Context/userContext";
 import { useMessageStore, useUserStore } from "@/store/userStore";
@@ -43,7 +42,7 @@ function Chat() {
 		const getMessages = async () => {
 			try {
 				const res = await axios.get(
-					`http://localhost:5000/api/message/${selectedUser?._id}`,
+					`/api/message/${selectedUser?._id}`,
 					{ withCredentials: true }
 				);
 				// returns an array

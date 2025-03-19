@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -53,11 +52,9 @@ function Register() {
 			)
 				return toast.error("You need to fill all the fields");
 
-			const res = await axios.post(
-				"http://localhost:5000/api/auth/register",
-				data,
-				{ withCredentials: true }
-			);
+			const res = await axios.post("/api/auth/register", data, {
+				withCredentials: true,
+			});
 
 			setUser(res.data.data);
 			connectSocket(res.data.data._id);

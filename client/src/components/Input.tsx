@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import axios from "axios";
 import React, { useState } from "react";
@@ -14,7 +16,7 @@ function Input() {
 
 		try {
 			const res = await axios.post(
-				`http://localhost:5000/api/message/send/${selectedUser?._id}`,
+				`/api/message/send/${selectedUser?._id}`,
 				{ text: inputMessage },
 				{ withCredentials: true }
 			);

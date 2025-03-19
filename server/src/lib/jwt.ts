@@ -9,7 +9,7 @@ const generateToken = (userId: string, res: Response) => {
 	res.cookie("token", token, {
 		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
 		httpOnly: true,
-		sameSite: "lax",
+		sameSite: "strict",
 		secure: process.env.NODE_ENV === "production",
 	});
 };

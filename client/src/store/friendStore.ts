@@ -42,7 +42,7 @@ export const useFriendStore = create<IFriendStore>((set, get) => ({
 	sendFriendRequest: async (email) => {
 		try {
 			const res = await axios.post(
-				"http://localhost:5000/api/friend/send",
+				"/api/friend/send",
 				{ email },
 				{ withCredentials: true }
 			);
@@ -57,7 +57,7 @@ export const useFriendStore = create<IFriendStore>((set, get) => ({
 	acceptFriendRequest: async (userId) => {
 		try {
 			const res = await axios.post(
-				"http://localhost:5000/api/friend/accept",
+				"/api/friend/accept",
 				{ userId },
 				{ withCredentials: true }
 			);
@@ -78,7 +78,7 @@ export const useFriendStore = create<IFriendStore>((set, get) => ({
 	rejectFriendRequest: async (userId) => {
 		try {
 			const res = await axios.post(
-				"http://localhost:5000/api/friend/reject",
+				"/api/friend/reject",
 				{ userId },
 				{ withCredentials: true }
 			);
@@ -97,10 +97,9 @@ export const useFriendStore = create<IFriendStore>((set, get) => ({
 
 	getFriendRequests: async () => {
 		try {
-			const res = await axios.get(
-				"http://localhost:5000/api/friend/requests",
-				{ withCredentials: true }
-			);
+			const res = await axios.get("/api/friend/requests", {
+				withCredentials: true,
+			});
 
 			get().setFriendRequests(res.data.data);
 		} catch (error: any) {
@@ -111,7 +110,7 @@ export const useFriendStore = create<IFriendStore>((set, get) => ({
 
 	getFriends: async () => {
 		try {
-			const res = await axios.get("http://localhost:5000/api/friend", {
+			const res = await axios.get("/api/friend", {
 				withCredentials: true,
 			});
 

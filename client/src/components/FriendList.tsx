@@ -1,10 +1,7 @@
 "use client";
 
-import choso from "@/assets/choso.png";
-import axios from "axios";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import { IChat } from "@/lib/types";
 import { useMessageStore, useUserStore } from "@/store/userStore";
 import { UserContext } from "@/Context/userContext";
 import { useFriendStore } from "@/store/friendStore";

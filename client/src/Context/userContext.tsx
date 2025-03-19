@@ -39,10 +39,9 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 	useEffect(() => {
 		const getUser = async () => {
 			try {
-				const res = await axios.get(
-					"http://localhost:5000/api/auth/checkIn",
-					{ withCredentials: true }
-				);
+				const res = await axios.get("/api/auth/checkIn", {
+					withCredentials: true,
+				});
 				setUser(res.data.data);
 			} catch (error: any) {
 				setUser(null);
