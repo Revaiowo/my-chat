@@ -60,7 +60,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 		return () => {
 			disconnectSocket();
 		};
-	}, [user]);
+	}, [user, connectSocket, disconnectSocket]);
 
 	return (
 		<UserContext.Provider
