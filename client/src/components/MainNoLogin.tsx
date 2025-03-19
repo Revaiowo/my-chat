@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { MessageCircleMore, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import AddFriendsDialog from "./AddFriendsDialog";
+import AddFriendsDialog from "./dialog/AddFriendsDialog";
 
 function MainNoLogin() {
 	const router = useRouter();

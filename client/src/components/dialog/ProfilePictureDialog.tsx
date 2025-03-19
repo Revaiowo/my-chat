@@ -122,7 +122,7 @@ function ProfilePictureDialog({ children }: { children: React.ReactNode }) {
 								Full Name
 							</span>
 							<div className="border border-[#acacac] p-2 rounded-lg">
-								{user?.fullName}
+								{user?.fullName || "Anon"}
 							</div>
 						</div>
 
@@ -135,7 +135,7 @@ function ProfilePictureDialog({ children }: { children: React.ReactNode }) {
 								Email
 							</span>
 							<div className="border border-[#acacac] p-2 rounded-lg">
-								{user?.email}
+								{user?.email || "xyz@gmail.com"}
 							</div>
 						</div>
 					</div>

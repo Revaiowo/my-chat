@@ -45,6 +45,14 @@ function Register() {
 	}) {
 		setLoading(true);
 		try {
+			if (
+				!data.email ||
+				!data.password ||
+				!data.fullName ||
+				!data.displayName
+			)
+				return toast.error("You need to fill all the fields");
+
 			const res = await axios.post(
 				"http://localhost:5000/api/auth/register",
 				data,
@@ -69,7 +77,7 @@ function Register() {
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className=" border p-10 grid grid-cols-2 gap-10"
+					className=" border p-10 grid grid-cols-2 gap-10 text-[#ffffff]"
 				>
 					<div className="col-span-2 text-3xl justify-self-center">
 						Register Form

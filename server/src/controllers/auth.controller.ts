@@ -2,12 +2,21 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/user.model";
 import { IUser } from "../models/user.model";
+import { userValidationSchema } from "../validation/user.validation";
 import generateToken from "../lib/jwt";
 import cloudinary from "../database/cloudinary";
 
 export const userRegister = async (req: Request, res: Response) => {
 	try {
-		const { fullName, displayName, email, password } = req.body;
+		const validatedData = userValidationSchema.safeParse(req.body);
+
+		if (!validatedData.success)
+			return res.status(400).json({
+				success: false,
+				message: validatedData.error.issues[0].message,
+			});
+
+		const { fullName, displayName, email, password } = validatedData.data;
 
 		let user: IUser | null = await User.findOne({ email });
 

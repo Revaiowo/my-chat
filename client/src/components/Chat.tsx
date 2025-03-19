@@ -62,7 +62,7 @@ function Chat() {
 		<>
 			<div
 				ref={chatBoxRef}
-				className="h-[70%] px-10 py-5 overflow-y-auto custom-scrollbar"
+				className="h-[70%] px-5 sm:px-10 py-5 overflow-y-auto custom-scrollbar"
 			>
 				{typeof window !== "undefined" &&
 					messages.map((message) => (
@@ -76,7 +76,7 @@ function Chat() {
 							}`}
 						>
 							{message.senderId !== user?._id && (
-								<div className="relative w-10 h-10 rounded-full self-end overflow-hidden">
+								<div className="hidden sm:block relative w-10 h-10 rounded-full self-end overflow-hidden">
 									<Image
 										alt="display"
 										src={
@@ -107,7 +107,7 @@ function Chat() {
 							</div>
 
 							{message.senderId === user?._id && (
-								<div className="relative w-10 h-10 rounded-full bg-[#474747] self-end overflow-hidden">
+								<div className="hidden sm:block relative w-10 h-10 rounded-full bg-[#474747] self-end overflow-hidden">
 									<Image
 										alt="display"
 										src={

@@ -37,6 +37,9 @@ function Login() {
 	async function onSubmit(data: { email: string; password: string }) {
 		setLoading(true);
 		try {
+			if (!data.email || !data.password)
+				return toast.error("You need to fill all the fields");
+
 			const res = await axios.post(
 				"http://localhost:5000/api/auth/login",
 				data,
@@ -57,7 +60,7 @@ function Login() {
 	}
 
 	return (
-		<div className="w-full h-full flex justify-center items-center">
+		<div className="w-full h-full flex justify-center items-center text-[#f7f7f7]">
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}

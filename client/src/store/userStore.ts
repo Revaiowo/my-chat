@@ -4,7 +4,9 @@ import { useSocketStore } from "./socketStore";
 
 interface IUserStore {
 	selectedUser: IUser | null;
-	setSelectedUser: (user: IUser) => void;
+	setSelectedUser: (user: IUser | null) => void;
+	isChatOpen: boolean;
+	setIsChatOpen: () => void;
 }
 
 interface IMessageStore {
@@ -18,6 +20,10 @@ export const useUserStore = create<IUserStore>((set) => ({
 	selectedUser: null,
 
 	setSelectedUser: (user) => set({ selectedUser: user }),
+
+	isChatOpen: false,
+
+	setIsChatOpen: () => set((state) => ({ isChatOpen: !state.isChatOpen })),
 }));
 
 export const useMessageStore = create<IMessageStore>((set, get) => ({

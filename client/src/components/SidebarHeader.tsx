@@ -8,8 +8,8 @@ import { Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useSocketStore } from "@/store/socketStore";
-import AddFriendsDialog from "./AddFriendsDialog";
-import FriendRequestDialog from "./FriendRequestDialog";
+import AddFriendsDialog from "./dialog/AddFriendsDialog";
+import FriendRequestDialog from "./dialog/FriendRequestDialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -17,7 +17,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ProfilePictureDialog from "./ProfilePictureDialog";
+import ProfilePictureDialog from "./dialog/ProfilePictureDialog";
 
 function SidebarHeader() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -75,9 +75,9 @@ function SidebarHeader() {
 	};
 
 	return (
-		<div className="p-4 flex items-center justify-between border-b border-[#494949]">
+		<div className="p-4 flex flex-col gap-2 sm:flex-row items-center justify-between border-b border-[#494949]">
 			<div className="flex gap-3 items-center">
-				<div className="rounded-full h-11 w-11 relative bg-[#474747] overflow-hidden">
+				<div className="rounded-full h-8 w-8 sm:h-11 sm:w-11 relative bg-[#474747] overflow-hidden">
 					<Image
 						alt="Display"
 						src={user?.profilePicture || "/avatar.png"}
@@ -85,7 +85,7 @@ function SidebarHeader() {
 						objectFit="cover"
 					/>
 				</div>
-				<div className="font-medium text-xl">
+				<div className="hidden sm:block font-medium text-3xl">
 					{user ? user?.fullName : "Anon"}
 				</div>
 			</div>

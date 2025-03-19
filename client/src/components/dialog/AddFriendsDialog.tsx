@@ -10,11 +10,11 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { useFriendStore } from "@/store/friendStore";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 function AddFriendsDialog({ children }: { children: React.ReactNode }) {
 	const [email, setEmail] = useState("");
@@ -75,7 +75,7 @@ function AddFriendsDialog({ children }: { children: React.ReactNode }) {
 							/>
 						</div>
 					</div>
-					<DialogFooter className="flex">
+					<DialogFooter className="flex items-end">
 						<Button type="submit">Add</Button>
 					</DialogFooter>
 				</form>

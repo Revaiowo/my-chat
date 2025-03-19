@@ -8,6 +8,8 @@ import { IChat } from "@/lib/types";
 import { useMessageStore, useUserStore } from "@/store/userStore";
 import { UserContext } from "@/Context/userContext";
 import { useFriendStore } from "@/store/friendStore";
+import AddFriendsDialog from "./dialog/AddFriendsDialog";
+import { Button } from "./ui/button";
 
 const formatTime = (timestamp: Date): string => {
 	const date = new Date(timestamp);
@@ -33,6 +35,19 @@ function FriendList() {
 	useEffect(() => {
 		getFriends();
 	}, [messages]);
+
+	if (friends.length == 0) {
+		return (
+			<div className="w-full h-full bg-inherit flex flex-col gap-5 justify-center items-center p-5">
+				<div className=" text-2xl text-center">No friends found!</div>
+				<AddFriendsDialog>
+					<Button className="sm:hidden min-w-[200px]">
+						Add Friends
+					</Button>
+				</AddFriendsDialog>
+			</div>
+		);
+	}
 
 	return (
 		<>

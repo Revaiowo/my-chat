@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React, { useContext, useEffect } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -11,8 +13,12 @@ import choso from "@/assets/choso.png";
 import { useFriendStore } from "@/store/friendStore";
 import Image from "next/image";
 import { Check, X } from "lucide-react";
+import { UserContext } from "@/Context/userContext";
 
 function FriendRequestDialog({ children }: { children: React.ReactNode }) {
+	const userContext = useContext(UserContext);
+	const user = userContext?.user;
+
 	const {
 		friendRequests,
 		getFriendRequests,
@@ -21,7 +27,7 @@ function FriendRequestDialog({ children }: { children: React.ReactNode }) {
 	} = useFriendStore();
 
 	useEffect(() => {
-		getFriendRequests();
+		if (user) getFriendRequests();
 	}, []);
 
 	return (
@@ -34,7 +40,7 @@ function FriendRequestDialog({ children }: { children: React.ReactNode }) {
 						List of your pening friend requests.
 					</DialogDescription>
 				</DialogHeader>
-				<div className="flex flex-col gap-5 max-h-[400px] overflow-y-auto custom-scrollbar p-5">
+				<div className="flex flex-col gap-5 max-h-[400px] overflow-y-auto custom-scrollbar p-5 ">
 					{friendRequests.length ? (
 						friendRequests.map((friendRequest) => (
 							<div key={friendRequest._id}>
